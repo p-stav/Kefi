@@ -1,0 +1,29 @@
+	{% extends "base.html" %}
+	{% block title %}Hashtag Filter{% endblock %}
+
+{%block content %}
+<div class="container">
+	<div class="jumbotron">
+		
+		<p class= "jumboTitle" style="font-family:'Roboto', sans-serif; text-align:center;">#{{hashtag}}</p>
+
+		<br/>
+	</div>
+</div>
+	
+<div class="list">
+	{% include "places/indexContent.html" %}
+</div>
+
+
+{% if placeMatch|length == 0 %}
+	<br/>
+	<p class="h4" style="font-family:'Roboto', sans-serif; text-align:center;">
+		No places tagged with #{{hashtag}}!
+	</p>
+{% endif %}
+
+<!--modal-->
+{% include "places/tagSelect.html" %}
+
+{% endblock %}

@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}Review {{name}}{% endblock %}
+
+{% block content %}
+<!-- Single button -->
+<div class='container'>
+	<div class="jumbotron" style="color:rgb(127,0,127); font-family:'Roboto',sans-serif;">
+		<p class='jumboTitle' style="margin-bottom:20px;">{{ name }}</p>
+		<p style="font-size:12px; margin-left:10px;">How is this place?</p>
+
+		{% if user.is_authenticated %}
+			<div></div>
+		{% else %}
+			<p style="font-size:12px; margin-left:10px; color:rgb(46,117,182);">Login or Create an Account to create your own tags! </p>			
+		{% endif %}
+	</div>
+</div>
+
+<div class='margins'>
+	{% autoescape on %}
+	<form role="form" method='post' action={% url "places:submit_submitReview" %}>
+		{% csrf_token %}
+		<div class='add-tags'>
+			{% for tagCategory, tagList in tags %}
+						<br/>
+						<p class="tagTitle">{{ tagCategory }}</p>
+						{% for tag in tagList %}
+							<div class="tag inactiveTag">
+								<input name='tagNames' type="checkbox" class="h4 hidden " value="{{tag}}"> #{{tag}}
+								<!--<div class='unselectedTag' style='float:right'><span class='glyphicon glyphicon-ok'</span></div>-->
+							</div>
+						{% endfor %}
+			{% endfor %}
+		
+
+			<br/>
+
+			{% if user.is_authenticated %}
+				<div class="personalTags">
+					<p class='' style="font-family:'Roboto',sans-serif; font-size:14px;">Can't find what you're looking for?</p>
+					<div class="createTag">
+						#<input class="personalTag" name='personalTag' type="text" placeholder="YourCustomTag (20 char limit)" maxlength="20">
+						<div class="removeTag" style='float:right'><span>&times;</span></div>
+					</div>
+
+				</div>
+
+				<div>
+					<div class="addCustomTag btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+				</div>
+
+				<br/>
+
+
+			{% endif %}
+			<!--
+				<textarea class="form-control commentBox" name='venueComment' id='comment'  rows="3" style="resize:none;" placeholder="Add your own tags!" maxlength="140"></textarea>
+				<div class='charLenCheck'><span class='numLength'>140</span> Characters Left</div>
+			-->
+
+			
+
+
+				<!--
+				<div class="btn-group hi" data-toggle="buttons">
+					{% for tag in tags %}
+					 <div class<label class="btn btn-primary" id="tagLabels">
+					 	<input type="checkbox" name="tagNames" value="{{tag}}">#{{tag}} 
+					 </label>
+					{% endfor %}
+				
+				-->	
+					<!--
+					<select class="form-control input-lg col-xs-4" id="tag0" name="tag0">
+						<option>Select Tag:</option>
+						
+						{% for tag in tags %}
+							<option>{{ tag.text }}</option>
+						{% endfor %}
+					</select>
+					-->
+					
+					
+					
+					<!--<div class="btn-group">
+						<button type="button" class="btn btn-default btn-lg dropdown-toggle btn-tag" data-toggle="dropdown">
+								Select tag:  <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							{% for tag in tags %}
+								<li class='btn-tag'><a class='btn-tag' href='#'>{{ tag }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				   -->
+			<br/>
+			<!--
+			<div>
+				<button type="button" id='add-tag' class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> Add tag</button>
+			</div>
+			-->
+			<div class='form-group hidden'>
+				<textarea class="form-control" id="venueId" name="venueId" rows="4">{{ id }}</textarea>
+			</div>
+			
+			<div class='form-group hidden'>
+				<textarea class="form-control" id="venueName" name="venueName" rows="4">{{ name }}</textarea>
+			</div>
+			<!-------comment put comment-----
+			<div class="form-group">
+				<div class="col-lg-6"><textarea class="form-control" id="comments" name="comments" rows="4" placeholder='Add Comment: 140 Characters'></textarea></div>
+			</div>
+			<br/>
+			
+			------------------------------>
+			
+			<div class="form-group">
+				<button type="submit" id='submitButton' class="btn btn-primary" name="submit_tags_form" data-loading-text="Submitting...">Submit</button>
+			</div>
+		</div>	
+	</form>
+</div>
+	{% endautoescape %}
+<br/><br/>
+<!--add button to add another tag, breh-->
+
+<!--modal-->
+{% include "places/tagSelect.html" %}
+
+<script>
+$(document).ready(function() {
+	$('.tag').click(function() {
+		if ($(this).hasClass('inactiveTag'))
+		{
+			
+			$(this).removeClass('inactiveTag').addClass('activeTag');
+			//make selected
+			$(this).find('.unselectedTag').removeClass('unselectedTag').addClass('selectedTag'); 
+			
+			//separator color change
+			//$(this).find('.separatorTagSelected').addClass('separatorTag').removeClass('separatorTagSelected');
+
+			//uncheck checkbox
+			$(this).find('input').prop('checked', true);
+		}
+
+		else if ($(this).hasClass('activeTag'))
+		{
+			//make selected
+			$(this).removeClass('activeTag').addClass('inactiveTag');
+			$(this).find('.selectedTag').removeClass('selectedTag').addClass('unselectedTag');
+			
+			//separator color change
+			//$(this).find('.separatorTag').removeClass('separatorTag').addClass('separatorTagSelected');
+
+			//check box
+			$(this).find('input').prop('checked', false);	
+		}	
+
+	});
+
+	
+	$(document).on("focusout",".personalTag", function() {
+		if ($(this).val() !="") {
+			$(this).parent().addClass('activeTag');
+			$(this).css("color","white");
+		}
+
+		else if ($(this).val() =="") {
+			$(this).parent().removeClass('activeTag');
+			$(this).css("color","black");
+		}
+
+	});
+
+	$('.addCustomTag').click(function() {
+		$(".personalTags").append("<div class='tag'>#<input class='personalTag' name='personalTag' type='text' placeholder='CreateYourOwnTag'><div class='removeTag' style='float:right'><span>&times;</span></div></div>");
+
+	});
+
+
+	$(document).on("click",".removeTag", function(){
+		$(this).parent().remove();
+
+	});
+
+
+	$('.createTag').click(function(){
+		$('.personalTag').focus();
+	});
+
+	//perform checks to make sure that custom tags are in correct fomat
+	$('#submitButton').click(function(event){		
+		
+		/*
+		$('.createTag input').each(function(){
+			if ($(this).val() =='')
+			{
+				$(this).parent().addClass('has-error');
+				alert('Oops! Please select a tag to associate with this venue!');
+				event.preventDefault();
+			}
+			
+			if (tagList.indexOf($(this).val()) != -1)
+			{
+				$(this).parent().addClass('has-error');
+				alert('Oops! Please select unique tags to associate with this venue!');
+				event.preventDefault();
+			}
+			
+			else
+			{
+				tagList.push($(this).val());
+			}
+		});
+		*/
+		
+		//make button inactive to only send 1 instance, and continue
+		$(this).button('loading');
+	});
+
+	/*
+	//character counter
+	$('.commentBox').keydown(function(){
+		var charLength = $('.commentBox').val().length + 1;
+		$('.numLength').text(140 - charLength);
+	});
+	*/
+
+	//var numTags = 0;
+	/*$(document).on('click', ".dropdown-menu li", function(){
+		//console.log($(this).text());
+		//console.log('hi');
+		//console.log($(this).attr('class'));
+		$('button.'+$(this).attr('class')).text($(this).text());
+		$('button.'+$(this).attr('class')).val($(this).text());
+		$('button.'+$(this).attr('class')).append('    <span class="caret"></span>');
+	});*/
+	
+   //prevent empty tags and duplicates from being sent:
+   /*
+   $('#submitButton').click(function(event){
+		//alert('hi');
+		var tagList = [];
+		
+		$('select').each(function(){
+			if ($(this).val() =='Select Tag:')
+			{
+				$(this).parent().addClass('has-error');
+				alert('Oops! Please select a tag to associate with this venue!');
+				event.preventDefault();
+			}
+			
+			if (tagList.indexOf($(this).val()) != -1)
+			{
+				$(this).parent().addClass('has-error');
+				alert('Oops! Please select unique tags to associate with this venue!');
+				event.preventDefault();
+			}
+			
+			else
+			{
+				tagList.push($(this).val());
+			}
+		});
+	});
+   
+   $("#add-tag").click(function(){
+		numTags++;
+		$('#add-tags').append('<br/><br/><br/><select class="form-control input-lg col-xs-4" id="tag'+numTags+'" name="tag'+numTags+'"><option>Select Tag:</option>{% for tag in tags %}<option>{{ tag }}</option>{% endfor %}</select>');
+		
+		
+		//<div class="form-group"><div class="btn-group"><button type="button" class="btn btn-default btn-lg dropdown-toggle btn-tag'+numTags+'" data-toggle="dropdown">Select tag:  <span class="caret"></span></button><ul class="dropdown-menu" role="menu">{% for tag in tags %}<li class="btn-tag'+numTags+'"><a class="btn-tag'+numTags+'" href="#">{{ tag }}</a></li>{% endfor %}</ul></div></div>');
+	});
+	*/
+	
+	//delete tag elements
+});
+
+
+
+
+</script>
+
+{% endblock %}

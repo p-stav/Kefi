@@ -1,0 +1,75 @@
+{% for place in placeMatch %}
+		
+		<div class="venue" id="{{ place.id }}">
+			
+
+			<div class="colorWrapper"> <!-- style="border:1px solid rgb({{place.color}});" >-->
+				
+				
+				<img class="venuePic"  src="{{place.picture}}"></img>
+				<div class='venueTitle' style="color:rgb(46,117,182);">{{ place.name }}</div>
+				<div class='venueType'>
+				<!--	{{ place.types}}		-->
+					<span class="venueDistance" style="color:rgb(46,117,182);">{{place.distance}} mi</span>
+				</div>
+
+			</div>
+
+			
+
+			<div class='venue-info curTag' style="background-color:rgba({{place.color}});">
+				{% for tag in place.hashtags %}
+					<span class='indexTag'>#{{ tag }}</span>
+				{% endfor %}
+			</div>
+
+			<div class="separator">
+			</div>
+		
+		</div>
+	{% endfor %}
+
+	{% for place in placeMatchOld %}
+		<div class="venue" id="{{ place.id }}">
+			<div class="colorWrapper"> <!-- style="color:rgb({{place.color}});" >-->
+				<img class="venuePic"  src="{{place.picture}}"></img>
+				<div class='venueTitle'>{{ place.name }}</div>
+				<div class='venueType'>
+					<span class="venueDistance" >{{place.distance}} mi</span>
+				</div>
+			</div>
+
+			<div class='venue-info curTag' style="color:#999999;">
+				{% for tag in place.hashtags %}
+					<span class='indexTag'>#{{ tag }}</span>
+				{% endfor %}
+			</div>
+
+			<div class="separator">
+			</div>
+		</div>
+	{% endfor %}
+		
+	<!--List for items with no data in our DB -->
+	{% for place in placeNoMatch %}
+		<div class="venue" id="{{ place.id }}">
+			<div class="colorWrapper" >
+				
+				<img class="venuePic"  src="{{place.picture}}"></img>
+				<div class='venueTitle'>{{ place.name }}</div>
+				<div class='venueType'>
+				<!--	{{ place.types}}		-->
+					<span class="venueDistance" style="">{{place.distance}} mi</span>
+				</div>
+			</div>
+			
+			<div class='venue-info curTag' style="color:#000;">
+				<div>
+					No Tags! Tap to explore. 
+				</div>
+			</div>
+			
+			<div class="separator">
+			</div>
+		</div>
+	{% endfor %}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta property="og:image" content="http://www.getkefi.com{{STATIC_URL}}KefiSmall.png">
+	<meta property="og:title" content="Kefi">
+	<meta property="og:url" content="www.getkefi.com">
+
+	<!--Google Maps and Google Places APIs-->
+
+	<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&key=AIzaSyAWf1WnMo_4s35yeXZ-kZyF-QZ7m5MwqP0"></script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>-->
+
+	<!-- bootstrap -->
+	{% load staticfiles %}
+	<link type="text/css" href="{{STATIC_URL}}css/goOut/main.css" rel="stylesheet"/>
+	<script src="{{STATIC_URL}}js/jquery.js"> </script>
+	<script src="{{STATIC_URL}}css/bootstrap-3.0.0/dist/js/bootstrap.js"> </script>
+
+	<!--load google fonts!-->
+	<link href='http://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
+
+	
+
+	<title>Kefi</title>
+
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-49651565-1', 'getkefi.com');
+	  ga('send', 'pageview');
+
+	</script>
+
+</head>
+
+<body>	
+	<!--header-->
+	<header class="navbar-transparent">
+			<!--Brand name-->
+			<a href="/"> <img class = "goToIndex" src="{{STATIC_URL}}Kefi.png" alt="Kefi" width="120.8px" height="50px"></img></a>
+	</header>
+
+	<div class = "pageContent">
+		<img class="jumbotronImg" style="width:100%;" src="{{STATIC_URL}}badPhoneShot.JPG"></img>
+	</div>
+
+
+	<div class="taglineContainer">
+		<div>
+			<div class="tagline"><span>Kefi. It's your night.</span> &nbsp; &nbsp; &nbsp; &nbsp;  
+				<a href="/getkefi"><button type="button" class="actionBtn btn btn-primary ">Get Kefi Beta</button></a>
+				<!--<a href="/getkefi"><button type="button" class="actionBtn btn btn-primary ">Join our email list</button></a>-->
+			</div>
+		</div>
+	</div>	
+
+	<div class="pillars" style="padding:10px 0px 30px; 0px; background-color:#2E4272; color:#fff; font-size:18px; ">
+		
+		<div style="margin: 30px;">
+			
+			<p align="center" style="font-size:40px; font-family: 'Roboto', sans-serif; margin-bottom:20px;">About Us</p>
+
+			<p>We want you to find the best places to dance, grab drinks, and catch up with friends when you decide to go out.</p><br/>
+
+			<p>The places we go to have constantly changing atmospheres. The club you like to #DanceYourFaceOff might be #Crickets tonight. That bar that usually serves #WeakDrinks might have a new #GenerousBartender. Or perhaps you're looking for a place with #LustyIntentions or #EasyLikeSundayMorning. Let's find it.</p><br/>
+
+			<p>So use Kefi to find a place that matches your mood for tonight, then get out there and have a blast sharing your thoughts about it.</p><br/>
+			<p> That's why we called this app "Kefi"; it means "fun" in Hebrew and "the spirit of joy" in Greek.</p><br/>
+
+			<br/>
+			<p>Bring the Kefi tonight</p>
+		</div>
+	</div>
+
+	<footer>
+		<nav>
+			<ul>
+				<li>
+					<a href="/about">About Us</a>
+				</li>
+				<li>
+					<a href="/getkefi">Join beta</a>
+				</li>
+				<!--<li>
+					<a href="/mailingList">Mailing List</a>
+				</li>-->
+			</ul>
+		</nav>
+	</footer>
+
+	<script>
+		$(document).ready(function() {
+			// set logo height and width
+			$('.goToIndex').width($(window).width() / 6);
+			$('.goToIndex').height($(window).width() / 6 * .41);
+
+
+			if ($(window).width() < 716) {
+				$('.actionBtn').addClass('btn-xs');
+				var carouselHeight = $(window).width()*0.6;
+				$('.jumbotronImg').css( "height", carouselHeight);
+			}
+			else {
+				$('.actionBtn').removeClass('btn-xs');
+				var carouselHeight = $(window).width() * 0.35;
+				$('.jumbotronImg').css( "height", carouselHeight);
+			}			
+		});
+
+	</script>
+</body>
+</html>

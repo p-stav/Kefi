@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Favorites{% endblock %}
+
+
+{% block content %}
+<p class="h3"style="font-family:'Roboto', sans-serif; text-align:center;">Favorites</p>
+
+<!--all, or near your?-->
+	{% for place in favorites %}
+		<div class="venue" id="{{ place.id }}">
+			<!--<div align="right" class="venueInternalRight">
+				{{place.distance}} mi
+			</div>-->
+
+			<div class='venue-info curTag' style="color:rgb({{place.color}});">
+				{% for tag in place.hashtags %}
+					<span class='indexTag'>#{{ tag }}</span>
+				{% endfor %}
+			</div>
+
+			<br/>
+			<div class="colorWrapper" style="background-color:rgb({{place.color}});" >
+				<img class="venuePic"  src="{{place.picture}}"></img>
+				<div class='venueTitle'>{{ place.name }}</div>
+				<div class='venueType'>
+					{{place.types}}
+				</div>
+				<br/>
+			</div>
+
+			
+			<div class="separator">
+			</div>
+		</div>
+	{% empty %}
+		<br/>
+		<br/>
+		<p class="h4" style="font-family:'Roboto', sans-serif; text-align:center;">
+			No places are favorited. Go find your Kefi.
+		</p>
+	{% endfor %}
+
+{% include "places/tagSelect.html" %}
+
+<script type = "text/javascript">
+
+	$(document).ready(function() {
+		$('.venue').click(function(){
+			//link to next page. Search into how this interfaces with django
+			location.href = '../venue/'+$(this).attr('id');
+		});
+	
+	});
+
+</script>
+{% endblock %}

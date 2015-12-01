@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+
+<h3 align='center'>{{firstName}}</h3>
+
+<div align='center' class='profilePicture'></div>
+
+<div class='favorites'>
+	<h4>Favorite places:</h4>
+	{% for place in favorites %}
+		{{place}} <br/>
+	{% endfor %}
+</div>
+
+<!--<div class='tagFreq'>
+	<h4> Your most common tags: </h4>
+</div>
+
+<div class='placeFreq'>
+	<h4> Your most visited places: </h4>
+</div>-->
+
+<script type='text/javascript'>
+$(document).ready(function() {
+	
+});
+
+function runFBInitCriticalCode() {
+		FB.api(
+		    "/100007493620551/picture",
+		    {
+	            "redirect": false,
+	            "height": "100",
+	            "type": "normal",
+	            "width": "100"
+		    },
+		    function (response) {
+		      if (response && !response.error) {
+		        $('.profilePicture').append("<img width=" + response.data['width'] + "px height=" + response.data['height'] + "px src=" + response.data['url'] + " /img>");
+		      }
+		    }
+		);
+	}
+
+</script>
+
+{% include "places/tagSelect.html" %}
+
+{% endblock %}
